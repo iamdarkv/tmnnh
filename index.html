@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bức Thư Lớn Dành Cho Bạn</title>
+    <title>Thư Gửi Chị Ánh 💌</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
@@ -23,18 +23,18 @@
             overflow: hidden; /* Ngăn trang web bị cuộn dính */
         }
 
-        /* CONTAINER CHÍNH CỦA PHONG THƯ (ĐÃ TĂNG KÍCH THƯỚC) */
+        /* CONTAINER CHÍNH CỦA PHONG THƯ (KÍCH THƯỚC LỚN) */
         .envelope-wrapper {
             position: relative;
-            width: 700px;   /* Kích thước cực lớn trên máy tính */
-            height: 450px;  /* Kích thước cực lớn trên máy tính */
-            max-width: 95vw; /* Tự động thu nhỏ nếu màn hình điện thoại bé */
+            width: 700px;   /* Kích thước lớn trên máy tính */
+            height: 450px;  /* Kích thước lớn trên máy tính */
+            max-width: 95vw; /* Tự động thu nhỏ trên điện thoại */
             cursor: pointer;
             perspective: 1200px;
             transition: transform 1s ease;
         }
 
-        /* Khi click mở, đẩy toàn bộ phong thư xuống dưới một chút để chừa chỗ cho giấy bay lên */
+        /* Khi click mở, đẩy toàn bộ phong thư xuống dưới một chút */
         .envelope-wrapper.open {
             transform: translateY(120px);
             cursor: default;
@@ -72,21 +72,22 @@
             z-index: 4;
         }
 
-        /* BỨC THƯ (ĐÃ TĂNG KÍCH THƯỚC VÀ THÊM THANH CUỘN) */
+        /* BỨC THƯ (KÍCH THƯỚC LỚN VÀ THÊM THANH CUỘN) */
         .letter {
             position: absolute;
             top: 15px; 
             left: 50%;
             transform: translateX(-50%);
-            width: 94%;       /* Trải rộng gần hết phong thư */
-            height: 420px;    /* Kích thước to để ghi nhiều chữ */
-            background-color: #fffcf8; /* Màu giấy vintage nhẹ */
+            width: 94%;       
+            height: 100%;    /* Dài hết phong thư */
+            background-color: #fffcf8;
             border-radius: 8px;
-            z-index: 1;       /* Ban đầu nằm dưới túi */
+            z-index: 1;       
             padding: 40px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
+            justify-content: space-between; /* Để sticker ở dưới cùng */
             
             /* Cho phép cuộn nếu chữ quá dài */
             overflow-y: auto;
@@ -99,20 +100,45 @@
         .letter::-webkit-scrollbar-track { background: transparent; }
         .letter::-webkit-scrollbar-thumb { background-color: #f497b0; border-radius: 10px; }
 
-        .letter h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 42px; /* Chữ to rõ ràng */
-            color: #d84370;
+        /* VĂN BẢN THƯ CĂN TRÁI */
+        .text-content {
+            text-align: left;
             margin-bottom: 20px;
-            text-align: center;
         }
 
         .letter p {
-            font-size: 18px; /* Chữ to rõ ràng */
+            font-size: 24px; /* Chữ to rõ ràng */
             color: #444;
-            line-height: 1.8;
+            line-height: 1.6;
             margin-bottom: 15px;
-            text-align: justify;
+            font-weight: 600;
+        }
+
+        /* DANH SÁCH EMOJI CĂN TRÁI */
+        .emoji-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .emoji-row {
+            font-size: 20px; /* Chữ to rõ ràng cho emoji */
+            white-space: nowrap; /* Giữ emoji trên một dòng */
+        }
+
+        /* STICKER GẤU PANDA CĂN GIỮA Ở DƯỚI */
+        .sticker-container {
+            align-self: center; /* Căn giữa sticker */
+            width: 250px; /* Kích thước sticker */
+            height: auto;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .panda-sticker {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* --- XỬ LÝ ANIMATION KHI MỞ THƯ --- */
@@ -126,7 +152,7 @@
         /* 2. Bức thư bay ra ngoài và đè lên phong thư */
         .envelope-wrapper.open .letter {
             animation: letterFlyOut 2.2s ease-in-out forwards;
-            animation-delay: 0.3s; /* Đợi nắp mở ra một chút mới bay */
+            animation-delay: 0.3s;
         }
 
         @keyframes letterFlyOut {
@@ -135,15 +161,15 @@
                 z-index: 1;
             }
             40% {
-                transform: translate(-50%, -105%); /* Kéo thư bay vút lên khỏi phong thư */
+                transform: translate(-50%, -105%); 
                 z-index: 1;
             }
             45% {
                 transform: translate(-50%, -105%);
-                z-index: 5; /* Đổi z-index để thư nhảy lên TRƯỚC phong thư */
+                z-index: 5; /* Đổi z-index để thư nhảy lên trên */
             }
             100% {
-                transform: translate(-50%, -40px); /* Hạ thư xuống che đi phong thư */
+                transform: translate(-50%, -50px); /* Hạ thư xuống nhưng vẫn ở trên túi */
                 z-index: 5;
             }
         }
@@ -164,15 +190,6 @@
         .envelope-wrapper.open .hint {
             opacity: 0;
         }
-
-        /* --- TỰ ĐỘNG THU NHỎ NẾU XEM TRÊN ĐIỆN THOẠI --- */
-        @media (max-width: 768px) {
-            .envelope-wrapper { height: 350px; }
-            .letter { height: 320px; padding: 25px; }
-            .letter h1 { font-size: 32px; }
-            .letter p { font-size: 16px; }
-            .envelope-wrapper.open { transform: translateY(90px); }
-        }
     </style>
 </head>
 <body>
@@ -181,11 +198,19 @@
         <div class="envelope-back"></div>
         
         <div class="letter">
-            <h1>Gửi cậu, người đặc biệt!</h1>
-            <p>Bây giờ không gian viết thư đã rộng rãi hơn rất nhiều! Cậu có thể viết thoải mái, viết những tâm tư dài như một bài văn mà không sợ thiếu giấy.</p>
-            <p>Đặc biệt nhất là, khi cậu mở thư ra, trang giấy sẽ bay hẳn ra ngoài và <strong>nằm đè lên trên phong thư</strong>. Từ giờ không còn bất kỳ dòng chữ nào bị mép phong thư che khuất nữa.</p>
-            <p>Mình cũng đã thêm thanh cuộn (scrollbar). Nếu cậu viết một bức thư thật dài, người đọc chỉ cần lăn chuột hoặc vuốt tay là có thể đọc trọn vẹn mọi thứ.</p>
-            <p>Cậu hãy sửa những dòng chữ này thành lời muốn nói của riêng cậu nhé. Chúc cậu thành công! 💖</p>
+            <div class="text-content">
+                <p>chị Ánh oyyy t7 CN tới chị về THNB cùng với tụi em nhóooo</p>
+                <div class="emoji-rows">
+                    <div class="emoji-row">😳💋❤️</div>
+                    <div class="emoji-row">🩷❤️🧡💛💚🩵💙💜</div>
+                    <div class="emoji-row">🤍❣️✨💘💖💓💗💞</div>
+                    <div class="emoji-row">🫣🥳🥰🥰🥰</div>
+                </div>
+            </div>
+
+            <div class="sticker-container">
+                <img src="path/to/panda_sticker.png" alt="Sticker Gấu Panda Muah" class="panda-sticker">
+                </div>
         </div>
 
         <div class="pocket"></div>
@@ -197,12 +222,4 @@
         const envelope = document.getElementById('envelope');
         
         envelope.addEventListener('click', () => {
-            // Khi mở thư ra thì sẽ giữ nguyên (tránh lỗi animation khi spam click)
-            if (!envelope.classList.contains('open')) {
-                envelope.classList.add('open');
-            }
-        });
-    </script>
-
-</body>
-</html>
+            if (!envelope.classList

@@ -3,27 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A </title>
-    <!-- Import Font chữ -->
+    <title>Bức Thư Lớn Dành Cho Bạn</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* SỬ DỤNG BIẾN CSS ĐỂ DỄ DÀNG THAY ĐỔI KÍCH THƯỚC */
-        :root {
-            --env-width: 700px;      /* Chiều rộng phong thư trên máy tính */
-            --env-height: 450px;     /* Chiều cao phong thư trên máy tính */
-            --padding-letter: 40px;  /* Khoảng cách viền bên trong thư */
-        }
-
-        /* Tự động thu nhỏ lại nếu người dùng xem trên điện thoại */
-        @media (max-width: 768px) {
-            :root {
-                --env-width: 90vw;   /* 90% chiều rộng màn hình điện thoại */
-                --env-height: 60vw;  /* Tỷ lệ thuận với chiều rộng */
-                --padding-letter: 20px;
-            }
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -35,26 +18,29 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             font-family: 'Nunito', sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* Ngăn trang web bị cuộn dính */
         }
 
-        /* CONTAINER BAO QUANH */
+        /* CONTAINER CHÍNH CỦA PHONG THƯ (ĐÃ TĂNG KÍCH THƯỚC) */
         .envelope-wrapper {
             position: relative;
-            width: var(--env-width);
-            height: var(--env-height);
+            width: 700px;   /* Kích thước cực lớn trên máy tính */
+            height: 450px;  /* Kích thước cực lớn trên máy tính */
+            max-width: 95vw; /* Tự động thu nhỏ nếu màn hình điện thoại bé */
             cursor: pointer;
             perspective: 1200px;
-            transition: transform 0.3s ease;
+            transition: transform 1s ease;
         }
 
-        .envelope-wrapper:hover {
-            transform: translateY(-5px);
+        /* Khi click mở, đẩy toàn bộ phong thư xuống dưới một chút để chừa chỗ cho giấy bay lên */
+        .envelope-wrapper.open {
+            transform: translateY(120px);
+            cursor: default;
         }
 
-        /* MẶT TRONG CỦA THƯ */
+        /* Mặt sau phong thư */
         .envelope-back {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -64,87 +50,105 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
 
-        /* BỨC THƯ (CÓ THỂ CUỘN NẾU VIẾT QUÁ DÀI) */
-        .letter {
-            position: absolute;
-            /* Căn giữa bức thư bên trong phong bì */
-            top: 4%; 
-            left: 3%;
-            width: 94%;
-            height: 92%;
-            background-color: #fff;
-            border-radius: 8px;
-            z-index: 1;
-            padding: var(--padding-letter);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* Thêm overflow-y để xuất hiện thanh cuộn khi chữ quá dài */
-            overflow-y: auto; 
-        }
-
-        /* Custom thanh cuộn cho bức thư thêm đẹp */
-        .letter::-webkit-scrollbar {
-            width: 8px;
-        }
-        .letter::-webkit-scrollbar-track {
-            background: #fdf2f8;
-            border-radius: 8px;
-        }
-        .letter::-webkit-scrollbar-thumb {
-            background-color: #f9a8be;
-            border-radius: 8px;
-        }
-
-        .letter h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: clamp(28px, 5vw, 42px); /* Tự động chỉnh size chữ */
-            color: #d84370;
-            margin-bottom: 15px;
-        }
-
-        .letter p {
-            font-size: clamp(15px, 2vw, 18px);
-            color: #444;
-            line-height: 1.8;
-            margin-bottom: 12px;
-            text-align: justify;
-        }
-
-        /* MẶT TRƯỚC (TÚI) */
+        /* Mặt trước phong thư (Túi đựng) */
         .pocket {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: #f497b0;
             border-radius: 12px;
-            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
             z-index: 3;
         }
 
-        /* NẮP THƯ */
+        /* Nắp phong thư */
         .flap {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: #f9a8be;
             border-radius: 12px;
-            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            clip-path: polygon(0 0, 100% 0, 50% 55%);
             transform-origin: top;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 4;
         }
 
-        /* TRẠNG THÁI KHI MỞ THƯ */
+        /* BỨC THƯ (ĐÃ TĂNG KÍCH THƯỚC VÀ THÊM THANH CUỘN) */
+        .letter {
+            position: absolute;
+            top: 15px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 94%;       /* Trải rộng gần hết phong thư */
+            height: 420px;    /* Kích thước to để ghi nhiều chữ */
+            background-color: #fffcf8; /* Màu giấy vintage nhẹ */
+            border-radius: 8px;
+            z-index: 1;       /* Ban đầu nằm dưới túi */
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            
+            /* Cho phép cuộn nếu chữ quá dài */
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #f497b0 transparent;
+        }
+
+        /* Tùy chỉnh thanh cuộn đẹp mắt */
+        .letter::-webkit-scrollbar { width: 6px; }
+        .letter::-webkit-scrollbar-track { background: transparent; }
+        .letter::-webkit-scrollbar-thumb { background-color: #f497b0; border-radius: 10px; }
+
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 42px; /* Chữ to rõ ràng */
+            color: #d84370;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .letter p {
+            font-size: 18px; /* Chữ to rõ ràng */
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* --- XỬ LÝ ANIMATION KHI MỞ THƯ --- */
+        
+        /* 1. Mở nắp */
         .envelope-wrapper.open .flap {
             transform: rotateX(180deg);
             z-index: 0;
         }
 
+        /* 2. Bức thư bay ra ngoài và đè lên phong thư */
         .envelope-wrapper.open .letter {
-            /* Đẩy thư lên cao khoảng 55% so với chiều cao phong thư */
-            transform: translateY(calc(var(--env-height) * -0.55));
-            z-index: 2;
+            animation: letterFlyOut 2.2s ease-in-out forwards;
+            animation-delay: 0.3s; /* Đợi nắp mở ra một chút mới bay */
         }
-        
+
+        @keyframes letterFlyOut {
+            0% {
+                transform: translate(-50%, 0);
+                z-index: 1;
+            }
+            40% {
+                transform: translate(-50%, -105%); /* Kéo thư bay vút lên khỏi phong thư */
+                z-index: 1;
+            }
+            45% {
+                transform: translate(-50%, -105%);
+                z-index: 5; /* Đổi z-index để thư nhảy lên TRƯỚC phong thư */
+            }
+            100% {
+                transform: translate(-50%, -40px); /* Hạ thư xuống che đi phong thư */
+                z-index: 5;
+            }
+        }
+
+        /* Gợi ý click */
         .hint {
             position: absolute;
             bottom: -50px;
@@ -160,6 +164,15 @@
         .envelope-wrapper.open .hint {
             opacity: 0;
         }
+
+        /* --- TỰ ĐỘNG THU NHỎ NẾU XEM TRÊN ĐIỆN THOẠI --- */
+        @media (max-width: 768px) {
+            .envelope-wrapper { height: 350px; }
+            .letter { height: 320px; padding: 25px; }
+            .letter h1 { font-size: 32px; }
+            .letter p { font-size: 16px; }
+            .envelope-wrapper.open { transform: translateY(90px); }
+        }
     </style>
 </head>
 <body>
@@ -167,37 +180,5 @@
     <div class="envelope-wrapper" id="envelope">
         <div class="envelope-back"></div>
         
-        <!-- BỨC THƯ BÊN TRONG -->
-        <div class="letter" id="letter">
-            <h1>Gửi cậu,</h1>
-            <p>Bây giờ thư đã to hơn rất nhiều rồi! Cậu có thể thoài mái viết một bức thư thật dài, kể về một ngày của cậu, những niềm vui nho nhỏ, hay bất kỳ tâm tư nào cậu muốn nhắn nhủ.</p>
-            <p>Nếu cậu viết chữ nhiều quá khiến bức thư dài hơn cả tờ giấy, đừng lo lắng nhé! Thanh cuộn thần kì (scrollbar) sẽ tự động hiện ra ở bên phải. Người đọc chỉ cần vuốt hoặc cuộn chuột lên xuống để đọc được hết mọi tâm tư của cậu.</p>
-            <p>Hãy dán bao nhiêu đoạn văn vào đây cũng được. Code này đã được tối ưu để hiển thị hoàn hảo trên cả máy tính lẫn điện thoại.</p>
-            <p>Chúc cậu viết được một bức thư thật ý nghĩa nhé! 💖</p>
-        </div>
-
-        <div class="pocket"></div>
-        <div class="flap"></div>
-        <div class="hint">Click để mở thư 💌</div>
-    </div>
-
-    <script>
-        const envelope = document.getElementById('envelope');
-        const letter = document.getElementById('letter');
-        
-        // Mở thư khi click vào phong bì
-        envelope.addEventListener('click', (e) => {
-            // Ngăn không cho click vào bức thư làm phong bì đóng lại
-            if(e.target !== letter && !letter.contains(e.target)) {
-                envelope.classList.toggle('open');
-            }
-        });
-
-        // Cho phép click vào bức thư để cuộn mà không bị giật (đóng/mở)
-        letter.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    </script>
-
-</body>
-</html>
+        <div class="letter">
+            <h1>Gửi cậu, người đặc biệt!</h1>

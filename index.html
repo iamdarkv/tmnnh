@@ -182,3 +182,27 @@
         
         <div class="letter">
             <h1>Gửi cậu, người đặc biệt!</h1>
+            <p>Bây giờ không gian viết thư đã rộng rãi hơn rất nhiều! Cậu có thể viết thoải mái, viết những tâm tư dài như một bài văn mà không sợ thiếu giấy.</p>
+            <p>Đặc biệt nhất là, khi cậu mở thư ra, trang giấy sẽ bay hẳn ra ngoài và <strong>nằm đè lên trên phong thư</strong>. Từ giờ không còn bất kỳ dòng chữ nào bị mép phong thư che khuất nữa.</p>
+            <p>Mình cũng đã thêm thanh cuộn (scrollbar). Nếu cậu viết một bức thư thật dài, người đọc chỉ cần lăn chuột hoặc vuốt tay là có thể đọc trọn vẹn mọi thứ.</p>
+            <p>Cậu hãy sửa những dòng chữ này thành lời muốn nói của riêng cậu nhé. Chúc cậu thành công! 💖</p>
+        </div>
+
+        <div class="pocket"></div>
+        <div class="flap"></div>
+        <div class="hint">Click để mở thư 💌</div>
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        
+        envelope.addEventListener('click', () => {
+            // Khi mở thư ra thì sẽ giữ nguyên (tránh lỗi animation khi spam click)
+            if (!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+            }
+        });
+    </script>
+
+</body>
+</html>

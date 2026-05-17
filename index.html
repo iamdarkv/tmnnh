@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thư Gửi Chị Ánh 💌</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -14,7 +14,8 @@
         }
 
         body {
-            background-color: #363636; /* Đổi màu nền tối một chút để giống ảnh của bạn, hoặc bạn đổi thành #fdf2f8 nếu thích màu hồng */
+            /* Nền gradient hồng pastel sang trọng */
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -31,111 +32,124 @@
             max-width: 95vw; 
             cursor: pointer;
             perspective: 1200px;
-            transition: transform 1s ease;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .envelope-wrapper.open {
-            transform: translateY(120px);
+            transform: translateY(140px); /* Đẩy phong thư xuống để thư bay lên vừa tầm mắt */
         }
 
-        /* Mặt sau phong thư */
+        /* MẶT SAU PHONG THƯ */
         .envelope-back {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #d1788e;
-            border-radius: 12px;
+            background-color: #e58da4;
+            border-radius: 15px;
             z-index: 0;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(216, 67, 112, 0.2); /* Bóng đổ màu hồng nhạt */
         }
 
-        /* Mặt trước phong thư (Túi đựng) */
+        /* MẶT TRƯỚC PHONG THƯ (Túi đựng) */
         .pocket {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #f497b0;
-            border-radius: 12px;
+            background-color: #f7a4bc;
+            border-radius: 15px;
             clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
             z-index: 3;
+            /* Tạo đường viền giả cho túi thư */
+            border-bottom: 2px solid rgba(255,255,255,0.2);
         }
 
-        /* Nắp phong thư */
+        /* NẮP PHONG THƯ */
         .flap {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #f9a8be;
-            border-radius: 12px;
+            background-color: #f9b6ca;
+            border-radius: 15px;
             clip-path: polygon(0 0, 100% 0, 50% 55%);
             transform-origin: top;
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 4;
         }
 
-        /* BỨC THƯ BÊN TRONG */
+        /* BỨC THƯ BÊN TRONG (Đã làm lại tuyệt đẹp) */
         .letter {
             position: absolute;
             top: 15px; 
             left: 50%;
             transform: translateX(-50%);
-            width: 94%;       
+            width: 92%;       
             height: 100%;    
-            background-color: #2b2b2b; /* Màu giấy tối giống nền tin nhắn */
+            background-color: #fffafb; /* Giấy trắng kem */
+            border: 3px dashed #f9b6ca; /* Viền nét đứt dễ thương */
             border-radius: 12px;
             z-index: 1;       
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            padding: 40px 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            
+            /* Dùng Flexbox để tự động căn giữa mọi thứ */
             display: flex;
             flex-direction: column;
+            align-items: center; /* Căn giữa theo chiều ngang */
             
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: #f497b0 transparent;
+            scrollbar-color: #f9b6ca transparent;
         }
 
-        .letter::-webkit-scrollbar { width: 6px; }
+        /* Thanh cuộn phong cách cute */
+        .letter::-webkit-scrollbar { width: 8px; }
         .letter::-webkit-scrollbar-track { background: transparent; }
-        .letter::-webkit-scrollbar-thumb { background-color: #f497b0; border-radius: 10px; }
+        .letter::-webkit-scrollbar-thumb { background-color: #f9b6ca; border-radius: 10px; }
 
-        /* VĂN BẢN THƯ */
+        /* VĂN BẢN THƯ (Đã căn giữa) */
         .text-content {
-            text-align: left;
-            margin-bottom: 20px;
+            text-align: center; /* Căn giữa chữ */
+            margin-bottom: 25px;
+            width: 100%;
         }
 
         .letter p {
-            font-size: 32px; /* Chữ to rõ như ảnh */
-            color: #ffffff; /* Chữ màu trắng */
-            line-height: 1.5;
-            margin-bottom: 15px;
-            font-weight: 600;
+            font-size: 30px; /* Chữ to, tròn, dễ đọc */
+            color: #4a4a4a; /* Chữ màu xám đen sang trọng thay vì đen tuyền */
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
 
         /* DANH SÁCH EMOJI */
         .emoji-rows {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            align-items: center; /* Căn giữa các hàng emoji */
+            gap: 12px;
         }
 
         .emoji-row {
-            font-size: 30px; 
+            font-size: 32px; 
             white-space: nowrap; 
-            letter-spacing: 2px;
+            letter-spacing: 4px; /* Giãn cách các emoji một chút cho thoáng */
         }
 
         /* STICKER GẤU PANDA */
         .sticker-container {
-            align-self: center; 
-            width: 250px; 
-            margin-top: 30px;
-            margin-bottom: 20px;
-            position: relative;
+            width: 200px; 
+            margin-top: auto; /* Tự động đẩy xuống dưới cùng nếu trên còn khoảng trống */
+            margin-bottom: 10px;
+            animation: floatSticker 3s ease-in-out infinite; /* Hiệu ứng gấu nhấp nhô nhẹ */
         }
 
         .panda-sticker {
             width: 100%;
             height: auto;
             display: block;
-            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4)); /* Thêm chút bóng cho sticker nổi bật */
+            filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.15));
+        }
+
+        @keyframes floatSticker {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         /* --- HIỆU ỨNG ANIMATION KHI MỞ THƯ --- */
@@ -145,9 +159,9 @@
             z-index: 0;
         }
 
-        /* Thư bay ra ngoài và đè lên mặt trước */
+        /* Bức thư bay mượt mà hơn */
         .envelope-wrapper.open .letter {
-            animation: letterFlyOut 2s ease-in-out forwards;
+            animation: letterFlyOut 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             animation-delay: 0.3s;
         }
 
@@ -155,31 +169,41 @@
             0% { transform: translate(-50%, 0); z-index: 1; }
             40% { transform: translate(-50%, -105%); z-index: 1; }
             45% { transform: translate(-50%, -105%); z-index: 5; }
-            100% { transform: translate(-50%, -40px); z-index: 5; }
+            100% { transform: translate(-50%, -70px); z-index: 5; }
         }
 
-        /* Gợi ý click */
+        /* Gợi ý click nhấp nháy nhẹ */
         .hint {
             position: absolute;
-            bottom: -50px;
+            bottom: -60px;
             width: 100%;
             text-align: center;
-            color: #f9a8be;
-            font-size: 20px;
-            font-weight: 700;
+            color: #d84370;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            animation: pulseHint 2s infinite;
             transition: opacity 0.3s;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
 
         .envelope-wrapper.open .hint {
             opacity: 0;
+            animation: none;
         }
 
         /* Responsive cho điện thoại */
         @media (max-width: 768px) {
             .envelope-wrapper { height: 400px; }
-            .letter p { font-size: 24px; }
-            .emoji-row { font-size: 24px; }
-            .sticker-container { width: 180px; }
+            .letter { padding: 30px 15px; }
+            .letter p { font-size: 22px; }
+            .emoji-row { font-size: 24px; letter-spacing: 2px; }
+            .sticker-container { width: 160px; }
+            .envelope-wrapper.open { transform: translateY(100px); }
         }
     </style>
 </head>
@@ -206,14 +230,13 @@
 
         <div class="pocket"></div>
         <div class="flap"></div>
-        <div class="hint">Click vào phong thư để mở 💌</div>
+        <div class="hint">CLICK VÀO PHONG THƯ ĐỂ MỞ 💌</div>
     </div>
 
     <script>
         const envelope = document.getElementById('envelope');
         
         envelope.addEventListener('click', () => {
-            // Dùng toggle để cho phép click mở ra và click lần nữa để thu vào
             envelope.classList.toggle('open');
         });
     </script>

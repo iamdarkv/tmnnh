@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Một Bức Thư Dành Cho Bạn</title>
+    <!-- Import Font chữ viết tay và font chữ thường từ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #fdf2f8; /* Màu nền hồng nhạt pastel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container của toàn bộ phong thư */
+        .envelope-wrapper {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
+            perspective: 1000px; /* Tạo hiệu ứng 3D */
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-5px); /* Hiệu ứng nổi lên khi di chuột */
+        }
+
+        /* Mặt trong của phong thư (Lớp dưới cùng) */
+        .envelope-back {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #d1788e; /* Màu đậm hơn để tạo chiều sâu */
+            border-radius: 8px;
+            z-index: 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Bức thư bên trong */
+        .letter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 300px;
+            height: 200px;
+            background-color: #fff;
+            border-radius: 5px;
+            z-index: 1;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: #d84370;
+            margin-bottom: 10px;
+        }
+
+        .letter p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Mặt trước phong thư (Túi đựng) */
+        .pocket {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #f497b0;
+            border-radius: 8px;
+            /* Tạo hình dáng mặt trước bằng clip-path */
+            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+            z-index: 3;
+        }
+
+        /* Nắp phong thư */
+        .flap {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #f9a8be;
+            border-radius: 8px;
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            transform-origin: top; /* Điểm xoay ở cạnh trên */
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+            z-index: 4;
+        }
+
+        /* --- XỬ LÝ TRẠNG THÁI MỞ (KHI ĐƯỢC THÊM CLASS 'open') --- */
+        
+        /* 1. Mở nắp thư lật ngược lên trên */
+        .envelope-wrapper.open .flap {
+            transform: rotateX(180deg);
+            z-index: 0; /* Đẩy nắp ra phía sau bức thư */
+        }
+
+        /* 2. Kéo bức thư bay lên */
+        .envelope-wrapper.open .letter {
+            transform: translateY(-120px);
+            z-index: 2; /* Nổi lên trên mặt trong nhưng dưới mặt ngoài (pocket) */
+        }
+        
+        /* Chữ gợi ý click */
+        .hint {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            color: #d84370;
+            font-weight: 600;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .envelope-wrapper.open .hint {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" id="envelope">
+        <div class="envelope-back"></div>
+        <div class="letter">
+            <h1>Gửi người nhận,</h1>
+            <p>Đây là một bức thư được tạo ra bằng code. Cậu có thể thay đổi những dòng chữ này thành bất cứ thông điệp nào cậu muốn. Chúc cậu một ngày thật rực rỡ!</p>
+        </div>
+        <div class="pocket"></div>
+        <div class="flap"></div>
+        <div class="hint">Click để mở thư 💌</div>
+    </div>
+
+    <script>
+        // Bắt sự kiện click để bật/tắt class 'open'
+        const envelope = document.getElementById('envelope');
+        
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('open');
+        });
+    </script>
+
+</body>
+</html>
